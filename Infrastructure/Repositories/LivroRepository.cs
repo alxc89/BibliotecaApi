@@ -28,6 +28,18 @@ public class LivroRepository
         }
     }
 
+    public async Task<bool> VerificarDisponibilidade(int idLivro)
+    {
+        const string sql = "SELECT disponivel FROM Livros WHERE id = @id";
+        return await _session.Connection.QueryFirstAsync<bool>(sql, new { id = idLivro });
+    }
+
+    public async Task<IEnumerable<LivroEntity>> ListarTodos()
+    {
+        const string sql = "SELECT id, titulo, autor, isbn FROM Livros";
+        return await _session.Connection.QueryAsync<LivroEntity>(sql);
+    }
+
     public async Task MarcarComoIndisponivel(int idLivro)
     {
         const string sql = "UPDATE Livros SET disponivel = FALSE WHERE id = @id";
@@ -39,5 +51,4 @@ public class LivroRepository
         const string sql = "UPDATE Livros SET disponivel = TRUE WHERE id = @id";
         await _session.Connection.ExecuteAsync(sql, new { id = idLivro });
     }
-
 }

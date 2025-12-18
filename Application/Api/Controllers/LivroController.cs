@@ -11,6 +11,7 @@ namespace BibliotecaApi.Application.Api.Controllers;
 public class LivroController : Controller
 {
     private readonly CadastrarLivroUC _cadastrarLivroUC = new CadastrarLivroUC();
+    private readonly ListarLivrosUC _listarLivrosUC = new ListarLivrosUC();
 
  
     [HttpPost]
@@ -29,6 +30,23 @@ public class LivroController : Controller
         {
             return BadRequest(ApiResponse<int>.Falha(ex.Message));
         }
+    }
 
+    [HttpGet]
+    [SwaggerOperation(Summary = "Adiciona uma nova categoria retornando o seu respectivo Id")]
+    [SwaggerResponse(StatusCodes.Status200OK, Type = typeof(ApiResponse<IEnumerable<LivroDTO>>))]
+    [SwaggerResponse(StatusCodes.Status400BadRequest)]
+    [SwaggerResponse(StatusCodes.Status401Unauthorized)]
+    public async Task<IActionResult> Listar()
+    {
+        try
+        {
+            var livros = await _listarLivrosUC.Execute();
+            return Ok(ApiResponse<IEnumerable<LivroDTO>>.Ok(livros.Dados!));
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ApiResponse<IEnumerable<LivroDTO>>.Falha(ex.Message));
+        }
     }
 }
