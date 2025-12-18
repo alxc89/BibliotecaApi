@@ -9,7 +9,7 @@ public class CadastrarEmprestimoUC
     private readonly EmprestimoRepository _emprestimoRepository = new EmprestimoRepository();
     private readonly LivroRepository _livroRepository = new LivroRepository();
 
-    public async Task<int> Execute(CadastrarEmprestimoInputDTO input)
+    public async Task<UseCaseResponse<int>> Execute(CadastrarEmprestimoInputDTO input)
     {
         try
         {
