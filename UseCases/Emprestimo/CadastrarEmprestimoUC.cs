@@ -13,6 +13,9 @@ public class CadastrarEmprestimoUC
     {
         try
         {
+            if (!await _livroRepository.VerificarDisponibilidade(input.IdLivro))
+                return UseCaseResponse<int>.Falha("Este livro já está emprestado e ainda não foi devolvido.");
+
             var emprestimo = new EmprestimoEntity();
             emprestimo.Cadastrar(input.IdUsuario, input.IdLivro, input.DataPrevistaDevolucao);
 
