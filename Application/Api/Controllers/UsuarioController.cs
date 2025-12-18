@@ -21,8 +21,11 @@ public class UsuarioController : Controller
     {
         try
         {
-            int newId = await _cadastrarUsuarioUC.Execute(input);
-            return Ok(ApiResponse<int>.Ok(newId));
+            var response = await _cadastrarUsuarioUC.Execute(input);
+            if (!response.Sucesso)
+                return BadRequest(ApiResponse<int?>.Falha(response.MensagemErro!));
+            
+            return Ok(ApiResponse<int>.Ok(response.Dados));
         }
         catch (Exception ex)
         {
