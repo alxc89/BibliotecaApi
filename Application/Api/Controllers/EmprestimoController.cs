@@ -21,8 +21,10 @@ public class EmprestimoController : Controller
     {
         try
         {
-            int idEmprestimo = await _cadastrarEmprestimoUC.Execute(input);
-            return Ok(ApiResponse<int>.Ok(idEmprestimo));
+            var resultado = await _cadastrarEmprestimoUC.Execute(input);
+            if (!resultado.Sucesso)
+                return BadRequest(ApiResponse<int?>.Falha(resultado.MensagemErro!));
+            return Ok(ApiResponse<int>.Ok(resultado.Dados));
         }
         catch (Exception ex)
         {
@@ -38,8 +40,10 @@ public class EmprestimoController : Controller
     {
         try
         {
-            string resultado = await _devolverEmprestimoUC.Execute(input);
-            return Ok(ApiResponse<string>.Ok(resultado));
+            var resultado = await _devolverEmprestimoUC.Execute(input);
+            if (!resultado.Sucesso)
+                return BadRequest(ApiResponse<string>.Falha(resultado.MensagemErro!));
+            return Ok(ApiResponse<string>.Ok(resultado.Dados!));
         }
         catch (Exception ex)
         {
