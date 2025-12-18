@@ -30,4 +30,12 @@ public class UsuarioRepository
             return result;
         }
     }
+
+    public async Task<bool> UsuarioExisteComCpf(string cpf)
+    {
+        const string sql = "SELECT EXISTS(SELECT 1 FROM Usuarios WHERE cpf = @cpf) AS UsuarioExiste";
+
+        using var connection = _session.Connection;
+        return await _session.Connection.QueryFirstAsync<bool>(sql, new { cpf });
+    }
 }
