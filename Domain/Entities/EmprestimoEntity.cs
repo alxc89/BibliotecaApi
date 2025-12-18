@@ -12,6 +12,12 @@ public class EmprestimoEntity
     public Decimal Multa { get; private set; }
     public Decimal Total { get; private set; }
 
+    private const int PRIMEIRA_FAIXA_DIAS_ATRASO = 3;
+
+    private const decimal VALOR_MULTA_POR_DIA_ATRASO_ATE_TRES_DIAS = 2.00m;
+    private const decimal VALOR_MULTA_POR_DIA_ATRASO_ACIMA_DE_TRES_DIAS = 3.50m;
+    private const decimal VALOR_MAXIMO_MULTA = 50.00m;
+
     public void Cadastrar(int idUsuario, int idLivro, DateTime dataPrevista)
     {
         if (idUsuario <= 0)
@@ -31,22 +37,37 @@ public class EmprestimoEntity
         Valor = 5.00m;
     }
 
-    public void RegistrarDevolucao()
+    public void RegistrarDevolucao(DateTime dataDevolucao)
     {
-        DataDevolucao = DateTime.Now;
+        DataDevolucao = dataDevolucao;
         Multa = CalcularMulta();
         Total = Valor + Multa;
     }
 
     private decimal CalcularMulta()
     {
+        decimal valorMulta = 0.00m;
+        TimeSpan atraso = CalcularDiasDeAtraso();
+        
+        if (atraso.TotalDays <= 0)
+            return valorMulta;
+        
+        for (int i = 0; i < (int)atraso.TotalDays; i++)
+        {
+            if (i < PRIMEIRA_FAIXA_DIAS_ATRASO)
+                valorMulta += VALOR_MULTA_POR_DIA_ATRASO_ATE_TRES_DIAS;
+            else
+                valorMulta += VALOR_MULTA_POR_DIA_ATRASO_ACIMA_DE_TRES_DIAS;
+        }
+
+        return valorMulta > VALOR_MAXIMO_MULTA ? VALOR_MAXIMO_MULTA : valorMulta;
+    }
+
+    private TimeSpan CalcularDiasDeAtraso()
+    {
         if (DataDevolucao == null)
             throw new Exception("Empréstimo ainda não devolvido.");
 
-        TimeSpan atraso = DataDevolucao.Value - DataPrevistaDevolucao;
-        if (atraso.TotalDays <= 0)
-            return 0.00m;
-        decimal valorMulta = (decimal)atraso.Days * 2.00m; // Exemplo: R$2,00 por dia de atraso
-        return valorMulta;
+        return DataDevolucao.Value - DataPrevistaDevolucao;
     }
 }

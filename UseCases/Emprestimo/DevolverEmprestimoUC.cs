@@ -23,7 +23,7 @@ public class DevolverEmprestimoUC
             if (emprestimo.DataDevolucao != null)
                 return UseCaseResponse<string>.Falha("Este empréstimo já foi devolvido.");
 
-            emprestimo.RegistrarDevolucao();
+            emprestimo.RegistrarDevolucao(input.DataDevolucao);
 
             await _emprestimoRepository.Atualizar(emprestimo);
 

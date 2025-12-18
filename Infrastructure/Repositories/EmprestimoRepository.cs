@@ -76,7 +76,7 @@ public class EmprestimoRepository
 
     public async Task<bool> VerificarUsuarioComEmprestimosAtrasados(int idUsuario)
     {
-        const string sql = @"SELECT EXISTS(SELECT 1 FROM Emprestimos WHERE id_usuario = @idUsuario AND data_devolucao IS NULL AND data_prevista_devolucao < NOW()) as UsuarioComEmprestimosAtrasados";
+        const string sql = @"SELECT EXISTS(SELECT 1 FROM Emprestimos WHERE id_usuario = @idUsuario AND data_devolucao IS NULL AND data_prevista_devolucao < datetime('now')) as UsuarioComEmprestimosAtrasados";
 
         using var connection = _session.Connection;
         return await _session.Connection.QueryFirstAsync<bool>(sql, new { idUsuario });
