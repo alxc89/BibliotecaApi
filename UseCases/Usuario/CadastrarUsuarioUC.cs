@@ -16,9 +16,12 @@ public class CadastrarUsuarioUC
         {
             if (await _repository.UsuarioExisteComCpf(input.CPF))
                 return UseCaseResponse<int>.Falha("Usuário com este CPF já está cadastrado.");
-            
-            _usuario.Cadastrar(input.Nome, input.CPF, input.Email);
-            
+
+            if (await _repository.UsuarioExisteComEmail(input.Email))
+                return UseCaseResponse<int>.Falha("Usuário com este Email já está cadastrado.");
+
+            _usuario.Cadastrar(input.Nome, input.CPF, input.Email, input.Senha);
+
             int idNovoUsuario = await _repository.Cadastrar(_usuario);
             return UseCaseResponse<int>.Ok(idNovoUsuario);
         }
