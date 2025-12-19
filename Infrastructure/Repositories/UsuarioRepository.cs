@@ -15,13 +15,14 @@ public class UsuarioRepository
 
     public async Task<int> Cadastrar(UsuarioEntity usuario)
     {
-        const string sql = "INSERT INTO Usuarios (nome, cpf, email) VALUES (@nome, @cpf, @email) RETURNING id";
+        const string sql = "INSERT INTO Usuarios (nome, cpf, email, senha_hash) VALUES (@nome, @cpf, @email, @senha_hash) RETURNING id";
 
         var parameters = new
         {
             nome = usuario.Nome,
             cpf = usuario.CPF,
-            email = usuario.Email
+            email = usuario.Email,
+            senha_hash = usuario.SenhaHash
         };
 
         using (var connection = _session.Connection)
