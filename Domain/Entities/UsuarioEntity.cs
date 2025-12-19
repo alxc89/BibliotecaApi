@@ -9,6 +9,15 @@ public class UsuarioEntity
 
     public void Cadastrar(string nome, string cpf, string email)
     {
+        if(string.IsNullOrWhiteSpace(email))
+            throw new Exception("O email do usuário é obrigatório.");
+
+        if (string.IsNullOrWhiteSpace(senha))
+            throw new Exception("A senha do usuário é obrigatória.");
+
+        if (senha.Trim().Length < 6)
+            throw new Exception("A senha do usuário deve ter pelo menos 6 caracteres.");
+
         if (string.IsNullOrWhiteSpace(nome))
             throw new Exception("O nome do usuário é obrigatório.");
 
