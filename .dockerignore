@@ -1,0 +1,14 @@
+.git
+.vscode
+bin
+obj
+
+*.user
+*.suo
+*.cache
+*.log
+
+Dockerfile
+docker-compose*.yml
+
+Biblioteca.db
