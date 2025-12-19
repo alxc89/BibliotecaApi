@@ -1,13 +1,17 @@
-﻿namespace BibliotecaApi.Domain.Entities;
+﻿using System.Text.Json.Serialization;
+using BCrypt.Net;
+
+namespace BibliotecaApi.Domain.Entities;
 
 public class UsuarioEntity
 {
     public int Id { get; set; }
-    public string Nome { get; private set; }
-    public string CPF { get; private set; }
-    public string Email { get; private set; }
+    public string Nome { get; private set; } = string.Empty;
+    public string CPF { get; private set; } = string.Empty;
+    public string Email { get; private set; } = string.Empty;
+    public string SenhaHash { get; private set; } = string.Empty;
 
-    public void Cadastrar(string nome, string cpf, string email)
+    public void Cadastrar(string nome, string cpf, string email, string senha)
     {
         if(string.IsNullOrWhiteSpace(email))
             throw new Exception("O email do usuário é obrigatório.");
