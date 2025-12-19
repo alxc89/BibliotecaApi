@@ -28,9 +28,9 @@ public class LivroRepository
         }
     }
 
-    public async Task<bool> VerificarDisponibilidade(int idLivro)
+    public async Task<bool> LivroEmprestado(int idLivro)
     {
-        const string sql = "SELECT disponivel FROM Livros WHERE id = @id";
+        const string sql = "SELECT EXISTS(SELECT 1 FROM Emprestimos WHERE id_livro = @id AND data_devolucao IS NULL)";
         return await _session.Connection.QueryFirstAsync<bool>(sql, new { id = idLivro });
     }
 
