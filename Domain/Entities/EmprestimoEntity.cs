@@ -68,6 +68,9 @@ public class EmprestimoEntity
         if (DataDevolucao == null)
             throw new Exception("Empréstimo ainda não devolvido.");
 
-        return DataDevolucao.Value - DataPrevistaDevolucao;
+        var dataDevolucao = DataDevolucao.Value.Date;
+        var dataPrevistaDevolucao = DataPrevistaDevolucao.Date;
+
+        return dataDevolucao - dataPrevistaDevolucao;
     }
 }
