@@ -9,13 +9,13 @@ public sealed class LivroEntity
 
     public LivroEntity()
     {
-        
+
     }
     public LivroEntity(int? id, string titulo, string autor, string isbn)
     {
         if (id != null)
         {
-            if(string.IsNullOrEmpty(id.ToString()))
+            if (string.IsNullOrEmpty(id.ToString()))
                 throw new ArgumentException("Id não pode ser vazio.");
             if (id <= 0)
                 throw new ArgumentException("Id deve ser maior que zero.");
@@ -29,10 +29,10 @@ public sealed class LivroEntity
         ISBN = isbn;
     }
 
-    public void Cadastrar( string titulo, string autor, string isbn)
+    public void Cadastrar(string titulo, string autor, string isbn)
     {
-        
-        ValidarDados(titulo, autor, isbn); 
+
+        ValidarDados(titulo, autor, isbn);
 
         Titulo = titulo;
         Autor = autor;
@@ -45,9 +45,9 @@ public sealed class LivroEntity
             throw new ArgumentException("Título não pode ser vazio.");
         if (string.IsNullOrWhiteSpace(autor))
             throw new ArgumentException("Autor não pode ser vazio.");
-        if (string.IsNullOrWhiteSpace(isbn))
-            throw new ArgumentException("ISBN não pode ser vazio.");
-        if(isbn.Any(c => !char.IsDigit(c)))
+        if (string.IsNullOrWhiteSpace(isbn) || isbn.Length != 13)
+            throw new ArgumentException("ISBN inválido.");
+        if (isbn.Any(c => !char.IsDigit(c)))
             throw new ArgumentException("ISBN deve conter apenas números.");
     }
 
