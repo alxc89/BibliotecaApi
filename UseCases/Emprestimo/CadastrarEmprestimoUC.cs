@@ -14,10 +14,10 @@ public class CadastrarEmprestimoUC
     {
         try
         {
-            if (!await _livroRepository.VerificarDisponibilidade(input.IdLivro))
+            if (await _livroRepository.LivroEmprestado(input.IdLivro))
                 return UseCaseResponse<int>.Falha("Este livro já está emprestado e ainda não foi devolvido.");
 
-            if (!await _emprestimoRepository.VerificarUsuarioComEmprestimosAtrasados(input.IdUsuario))
+            if (await _emprestimoRepository.VerificarUsuarioComEmprestimosAtrasados(input.IdUsuario))
                 return UseCaseResponse<int>.Falha("Usuário com empréstimo em atraso não pode realizar novo empréstimo.");
                 
             var emprestimo = new EmprestimoEntity();
