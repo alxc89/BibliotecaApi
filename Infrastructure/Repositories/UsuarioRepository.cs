@@ -39,4 +39,22 @@ public class UsuarioRepository
         using var connection = _session.Connection;
         return await _session.Connection.QueryFirstAsync<bool>(sql, new { cpf });
     }
+
+    public async Task<bool> UsuarioExisteComEmail(string email)
+    {
+        const string sql = "SELECT EXISTS(SELECT 1 FROM Usuarios WHERE email = @email) AS UsuarioExiste";
+
+        using var connection = _session.Connection;
+        return await _session.Connection.QueryFirstAsync<bool>(sql, new { email });
+    }
+
+    public async Task<UsuarioEntity?> ObterPorEmail(string email)
+    {
+        const string sql = "SELECT id, nome, cpf, email, senha_hash as SenhaHash FROM Usuarios WHERE email = @email";
+
+        using var connection = _session.Connection;
+        var usuario = await _session.Connection.QueryFirstOrDefaultAsync<UsuarioEntity>(sql, new { email });
+
+        return usuario;
+    }
 }
