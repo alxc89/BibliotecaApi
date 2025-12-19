@@ -33,6 +33,18 @@ public class UsuarioEntity
 
         Nome = nome.Trim();
         CPF = cpf.Trim();
-        Email = email?.Trim();
+        Email = email.Trim().ToLowerInvariant();
+        SenhaHash = HashSenha(senha.Trim());
+    }
+
+    private static string HashSenha(string senha)
+    {
+        var hash = BCrypt.Net.BCrypt.HashPassword(senha);
+        return hash;
+    }
+
+    public bool VerificarSenha(string senha)
+    {
+        return BCrypt.Net.BCrypt.Verify(senha, SenhaHash);
     }
 }
