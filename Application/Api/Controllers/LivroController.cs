@@ -1,6 +1,7 @@
 ﻿using BibliotecaApi.Application.Api.Responses;
 using BibliotecaApi.UseCases.Livro;
 using BibliotecaApi.UseCases.Livro.DTO;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 
@@ -15,6 +16,7 @@ public class LivroController : Controller
 
  
     [HttpPost]
+    [Authorize]
     [SwaggerOperation(Summary = "Adiciona uma nova categoria retornando o seu respectivo Id")]
     [SwaggerResponse(StatusCodes.Status201Created, Type = typeof(ApiResponse<int>))]
     [SwaggerResponse(StatusCodes.Status400BadRequest)]
@@ -33,6 +35,7 @@ public class LivroController : Controller
     }
 
     [HttpGet]
+    [Authorize]
     [SwaggerOperation(Summary = "Adiciona uma nova categoria retornando o seu respectivo Id")]
     [SwaggerResponse(StatusCodes.Status200OK, Type = typeof(ApiResponse<IEnumerable<LivroDTO>>))]
     [SwaggerResponse(StatusCodes.Status400BadRequest)]

@@ -1,6 +1,7 @@
 ﻿using BibliotecaApi.Application.Api.Responses;
 using BibliotecaApi.UseCases.Emprestimo;
 using BibliotecaApi.UseCases.Emprestimo.DTO;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 
@@ -14,6 +15,7 @@ public class EmprestimoController : Controller
     private readonly DevolverEmprestimoUC _devolverEmprestimoUC = new DevolverEmprestimoUC();
 
     [HttpPost]
+    [Authorize]
     [SwaggerOperation(Summary = "Registra um novo empréstimo de livro")]
     [SwaggerResponse(StatusCodes.Status200OK, Type = typeof(ApiResponse<int>))]
     [SwaggerResponse(StatusCodes.Status400BadRequest)]
@@ -33,6 +35,7 @@ public class EmprestimoController : Controller
     }
 
     [HttpPost]
+    [Authorize]
     [SwaggerOperation(Summary = "Registra a devolução de um empréstimo de livro")]
     [SwaggerResponse(StatusCodes.Status200OK, Type = typeof(ApiResponse<string>))]
     [SwaggerResponse(StatusCodes.Status400BadRequest)]
